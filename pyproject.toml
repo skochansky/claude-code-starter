@@ -1,0 +1,62 @@
+[project]
+name = "claude-code-starter"
+version = "0.1.0"
+description = "Claude Code configuration starter for Django projects"
+requires-python = ">=3.12"
+# src/ starts empty; runtime dependencies arrive with the Django project (`uv add django ...`).
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0",
+    "pytest-cov>=7.0",
+    "ruff>=0.14",
+    "mypy>=1.18",
+    "pre-commit>=4.3",
+]
+
+[tool.uv]
+# The Django project lives in src/ (manage.py there puts it on sys.path); it is not installed.
+package = false
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+# Claude Code hooks run on the system `python3`, which can be as old as 3.9 (macOS).
+per-file-target-version = { ".claude/hooks/*.py" = "py39", ".claude/statusline.py" = "py39" }
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "B", "UP", "S", "DJ", "RUF", "SIM", "N", "C4", "PT", "T20"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101"]
+"tests/test_claude_hooks.py" = ["S101", "S603", "S607"]
+".claude/**" = ["S603", "S607", "T20"]
+"**/settings/*.py" = ["F403", "F405"]
+"**/migrations/*.py" = ["E501", "RUF012"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["apps", "config"]
+
+[tool.mypy]
+strict = true
+python_version = "3.12"
+mypy_path = "src"
+explicit_package_bases = true
+# When the Django project exists: files = ["src", "tests"], plugins = ["mypy_django_plugin.main"]
+# and [tool.django-stubs] django_settings_module = "config.settings.test" (see docs/architecture.md).
+files = ["tests"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.coverage.run]
+source = ["src"]
+branch = true
+omit = ["*/migrations/*", "src/config/settings/*", "src/config/asgi.py", "src/config/wsgi.py"]
+
+[tool.coverage.report]
+fail_under = 90
+show_missing = true
+skip_empty = true

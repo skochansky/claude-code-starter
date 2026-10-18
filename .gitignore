@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+dist/
+
+# Local data / secrets
+*.db
+*.sqlite3
+staticfiles/
+media/
+.env
+.env.*
+!.env.example
+
+# Claude Code: personal, not shared
+CLAUDE.local.md
+.claude/settings.local.json
+
+# IDE
+.idea/
+.vscode/
+.DS_Store
+
+# Claude Code hook logs
+.claude/logs/

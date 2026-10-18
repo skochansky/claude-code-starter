@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp"]
+    },
+    "sqlite": {
+      "command": "uv",
+      "args": ["tool", "run", "mcp-server-sqlite", "--db-path", "./db.sqlite3"]
+    }
+  }
+}
